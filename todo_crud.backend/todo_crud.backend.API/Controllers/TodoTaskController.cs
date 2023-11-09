@@ -17,34 +17,50 @@ namespace todo_crud.backend.API.Controllers
             this._todoTaskBusinessLogic = todoTaskBusinessLogic;
         }
 
-        // GET: api/<TodoTaskController>
+        // GET
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoTaskResponseDTO>>> GetAllTodos()
         {
             IEnumerable<TodoTaskResponseDTO> todoResponses = new List<TodoTaskResponseDTO>();
-            todoResponses = await this._todoTaskBusinessLogic.GetAllTodos();
-
-            if(!todoResponses.Any()) 
+            try
             {
-                return NoContent();
+                todoResponses = await this._todoTaskBusinessLogic.GetAllTodos();
+
+                if (!todoResponses.Any())
+                {
+                    return NoContent();
+                }
+
+            }
+            catch
+            {
+                return BadRequest();
             }
             return Ok(todoResponses);
+
         }
 
-        // GET api/<TodoTaskController>/5
+        // GET By Id
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoTaskResponseDTO>> GetTodoById(long id)
         {
             var todoResponse = new TodoTaskResponseDTO();
-            todoResponse = await this._todoTaskBusinessLogic.GetTodoById(id);
-            if(todoResponse == null)
+            try
             {
-                return NotFound();
+                todoResponse = await this._todoTaskBusinessLogic.GetTodoById(id);
+                if (todoResponse == null)
+                {
+                    return NotFound($"{id} task not found");
+                }
+            }
+            catch
+            {
+                return BadRequest();
             }
             return Ok(todoResponse);
         }
 
-        // POST api/<TodoTaskController>
+        // POST
         [HttpPost]
         public async Task<ActionResult> CreateTodoTask([FromBody] TodoTaskAddDTO todoValues)
         {
@@ -60,18 +76,42 @@ namespace todo_crud.backend.API.Controllers
             return Created("\"api/todo-tasks", todoValues);
         }
 
-        // PUT api/<TodoTaskController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateTodo(int id, [FromBody] string value)
+        // PUT By Id
+        [HttpPut]
+        public async Task<ActionResult> UpdateTodo([FromBody] TodoTaskUpdateDTO todoUpdateValue)
         {
-            return Ok();
+            try
+            {
+                var response = await _todoTaskBusinessLogic.UpdateTodoById(todoUpdateValue);
+                if (!response)
+                {
+                    return NotFound($"{todoUpdateValue.Id} task not found");
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            return Ok("Task updated Successfully");
         }
 
         // DELETE api/<TodoTaskController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTodo(int id)
+        public async Task<ActionResult> DeleteTodo(long id)
         {
-            return Ok();
+            try
+            {
+                var response = await _todoTaskBusinessLogic.DeleteTodoById(id);
+                if (!response)
+                {
+                    return NotFound($"{id} task not found");
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            return Ok("Task Deleted Successfully");
         }
     }
 }
