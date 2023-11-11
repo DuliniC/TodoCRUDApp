@@ -27,18 +27,25 @@ namespace todo_crud.backend.Business
                 Title = todoTaskAdd.Title,
                 Description = todoTaskAdd.Description,
             };
-            await unitOfWork.TodoTaskRepository.Add(newTodo);
-            unitOfWork.Save();           
+            await this.unitOfWork.TodoTaskRepository.Add(newTodo);
+            this.unitOfWork.Save();           
         }
 
-        public Task DeleteTodoById(int id)
+        public async Task<bool> DeleteTodoById(long id)
         {
-            throw new NotImplementedException();
+            var todo = await this.unitOfWork.TodoTaskRepository.GetById(id);
+
+            if(todo != null)
+            {
+                this.unitOfWork.TodoTaskRepository.Delete(todo);
+                return true;
+            }
+            return false;
         }
 
         public async Task<IEnumerable<TodoTaskResponseDTO>> GetAllTodos()
         {
-            var todoList = new List<TodoTaskResponseDTO>();
+            IList<TodoTaskResponseDTO> todoList = new List<TodoTaskResponseDTO>();
             var todos = await this.unitOfWork.TodoTaskRepository.GetAll();
             foreach (var todo in todos)
             {
@@ -55,26 +62,41 @@ namespace todo_crud.backend.Business
             return todoList;
         }
 
-        public async Task<TodoTaskResponseDTO> GetTodoById(long id)
+        public async Task<TodoTaskResponseDTO?> GetTodoById(long id)
         {
-            TodoTaskResponseDTO todoResponse = null;
             var todo = await this.unitOfWork.TodoTaskRepository.GetById(id);
             if(todo != null)
             {
-                todoResponse.Id = todo.Id;
-                todoResponse.Title = todo.Title;
-                todoResponse.Description = todo.Description;
-                todoResponse.Priority = todo.Priority;
-                todoResponse.IsCompleted = todo.IsCompleted;
-
+                var todoResponse = new TodoTaskResponseDTO
+                {
+                    Id = todo.Id,
+                    Title = todo.Title,
+                    Description = todo.Description,
+                    Priority = todo.Priority,
+                    IsCompleted = todo.IsCompleted
+                };
+                return todoResponse;
             }
 
-            return todoResponse;
+            return null;
         }
 
-        public Task<bool> UpdateTodoById(TodoTaskUpdateDTO todoTaskUpdate)
+        public async Task<bool> UpdateTodoById(TodoTaskUpdateDTO todoTaskUpdate)
         {
-            throw new NotImplementedException();
+            var todo = await this.unitOfWork.TodoTaskRepository.GetById(todoTaskUpdate.Id);
+
+            if(todo != null)
+            {
+                todo.Title = todoTaskUpdate.Title;
+                todo.Description = todoTaskUpdate.Description;
+                todo.Priority = todoTaskUpdate.Priority;
+                todo.IsCompleted = todoTaskUpdate.IsCompleted;
+
+                this.unitOfWork.TodoTaskRepository.Update(todo);
+                this.unitOfWork.Save();
+                return true;
+            }
+            return false;
         }
     }
 }

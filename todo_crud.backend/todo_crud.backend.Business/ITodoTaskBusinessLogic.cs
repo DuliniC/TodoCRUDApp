@@ -13,6 +13,6 @@ namespace todo_crud.backend.Business
         Task<IEnumerable<TodoTaskResponseDTO>> GetAllTodos();
         Task AddTodoTask(TodoTaskAddDTO todoTaskAdd);
         Task<bool> UpdateTodoById(TodoTaskUpdateDTO todoTaskUpdate);
-        Task DeleteTodoById(int id);
+        Task<bool> DeleteTodoById(long id);
     }
 }
