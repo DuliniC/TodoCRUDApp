@@ -27,8 +27,8 @@ namespace todo_crud.backend.Business
                 Title = todoTaskAdd.Title,
                 Description = todoTaskAdd.Description,
             };
-            await unitOfWork.TodoTaskRepository.Add(newTodo);
-            unitOfWork.Save();           
+            await this.unitOfWork.TodoTaskRepository.Add(newTodo);
+            this.unitOfWork.Save();           
         }
 
         public async Task<bool> DeleteTodoById(long id)
@@ -45,7 +45,7 @@ namespace todo_crud.backend.Business
 
         public async Task<IEnumerable<TodoTaskResponseDTO>> GetAllTodos()
         {
-            var todoList = new List<TodoTaskResponseDTO>();
+            IList<TodoTaskResponseDTO> todoList = new List<TodoTaskResponseDTO>();
             var todos = await this.unitOfWork.TodoTaskRepository.GetAll();
             foreach (var todo in todos)
             {
@@ -62,7 +62,7 @@ namespace todo_crud.backend.Business
             return todoList;
         }
 
-        public async Task<TodoTaskResponseDTO> GetTodoById(long id)
+        public async Task<TodoTaskResponseDTO?> GetTodoById(long id)
         {
             var todo = await this.unitOfWork.TodoTaskRepository.GetById(id);
             if(todo != null)
