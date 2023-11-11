@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using todo_crud.backend.Business;
 using todo_crud.backend.DataAccess;
 using todo_crud.backend.DataAccess.Repository;
@@ -19,6 +20,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors( options => {
+    options.AddPolicy("AllowReactFrontend",
+            builder => builder.WithOrigins("http://localhost:3000") // Adjust with your React frontend URL
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+});    
 
 var app = builder.Build();
 
@@ -29,6 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
