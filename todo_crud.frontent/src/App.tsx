@@ -1,6 +1,6 @@
 import './App.css';
 import Header from './components/Header';
-import LeftTab from './components/LeftTab';
+import LeftTab from './components/HomePage';
 
 function App() {
   return (

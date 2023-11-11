@@ -30,6 +30,7 @@ const CheckBox = ({todo} : checkBoxProps) => {
           if (!response.ok) {
             throw new Error('Update API failed');
           }
+          console.log('Todo Updated Successfully')
     }
     catch(error )
     {
@@ -47,6 +48,7 @@ const CheckBox = ({todo} : checkBoxProps) => {
           id="complete-checkbox"
           checked = {todo.isCompleted}
           onChange={(e) => handleChange(e)}
+          style={{color: '#000000'}}
         />
       </div>
     </Form>

@@ -1,8 +1,7 @@
-import Card from "react-bootstrap/Card";
 import { TodoTask } from "../models/TodoTaskModel";
 import { priorities } from "../models/TodoPriorityEnum";
 import * as Icon from "react-bootstrap-icons";
-import { Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import CheckBox from "./Checkbox";
 
 type TodoProps = {
