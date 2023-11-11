@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TodoCard from "./TodoCard";
 import { TodoTask } from "../models/TodoTaskModel";
 import { TodoTaskAdd } from "../models/TodoTaskAddModel";
-import { title } from "process";
+import API_BASE_URL from "../config";
 
 
 const PendingTodoView = () => {
@@ -13,7 +13,7 @@ const PendingTodoView = () => {
         //GetAll API call
         const getAllTodos = async () => {
             try {
-              const response = await fetch('api/todo-tasks'); 
+              const response = await fetch(`${API_BASE_URL }/api/todo-tasks`); 
               if (response.ok) {
                 const todoData: TodoTask[] = await response.json();
                 setTodoList(todoData);
