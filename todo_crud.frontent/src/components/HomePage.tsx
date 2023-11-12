@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { TodoTask } from "../models/TodoTaskModel";
 import API_BASE_URL from "../config";
 import Button from "react-bootstrap/esm/Button";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const HomePage = () => {
   const [todoList, setTodoList] = useState<TodoTask[]>([]);
@@ -14,11 +16,11 @@ const HomePage = () => {
   const handleShow = () => setShowAddForm(true);
   const handleClose = () => setShowAddForm(false);
   const validateTitle = () => {
-    if(title.trim() == ''){
+    if (title.trim() == "") {
       alert("Title can not be contain only spaces");
       return;
     }
-  }
+  };
   const pendingTodoList = todoList.filter((todo) => !todo.isCompleted);
   const completedTodoList = todoList.filter((todo) => todo.isCompleted);
 
@@ -26,7 +28,7 @@ const HomePage = () => {
     e.preventDefault();
     validateTitle();
     try {
-      const response = await fetch(`${API_BASE_URL}/api/todo-tasks`, {
+      const response = await fetch(`${API_BASE_URL}/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,13 +41,27 @@ const HomePage = () => {
       if (!response.ok) {
         throw new Error("Failed to create Todo");
       }
-      
-      console.log("Todo created Successfully");
-      window.location.reload();
-      handleClose();
 
+      console.log("Todo created Successfully");
+      handleClose();
+      toast.success("Todo created Successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+        onClose: () => {
+          setTimeout(() => {
+          }, 2000);
+        },
+      });
     } catch (error) {
       console.error(error);
+
+      toast.error("Todo creation failed", {
+        position: toast.POSITION.TOP_RIGHT,
+        onClose: () => {
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+      });
     }
   };
 
@@ -53,7 +69,7 @@ const HomePage = () => {
     //GetAll API call
     const getAllTodos = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/todo-tasks`, {
+        const response = await fetch(`${API_BASE_URL}/get-all`, {
           method: "GET",
           headers: {
             "Content-Type": "text/plain",
@@ -75,6 +91,7 @@ const HomePage = () => {
 
   return (
     <>
+      <ToastContainer />
       <Tab.Container id="todo-left-tabs" defaultActiveKey="pending-list">
         <Row>
           <Col sm={2}>
@@ -137,7 +154,7 @@ const HomePage = () => {
             </Button>
           </Form>
         </Modal.Body>
-      </Modal>     
+      </Modal>
     </>
   );
 };
