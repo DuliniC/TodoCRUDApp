@@ -10,8 +10,8 @@ using todo_crud.backend.DataAccess;
 namespace todo_crud.backend.DataAccess.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20231108170240_InitialDb")]
-    partial class InitialDb
+    [Migration("20231112053458_InitalDb")]
+    partial class InitalDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
