@@ -1,6 +1,6 @@
 import './App.css';
 import Header from './components/Header';
-import LeftTab from './components/HomePage';
+import HomePage from './components/HomePage';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <Header/>
       </header>
       <section>
-        <LeftTab/>
+        <HomePage/>
       </section>
     </div>
   );
