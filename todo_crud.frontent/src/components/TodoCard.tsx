@@ -5,6 +5,8 @@ import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
 import CheckBox from "./Checkbox";
 import API_BASE_URL from "../config";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type TodoProps = {
   todo: TodoTask[];
@@ -61,8 +63,16 @@ const TodoCard = ({ todo }: TodoProps) => {
     setUpdateTodoModel((prevState) => ({ ...prevState, priority: option }));
   };
 
+  const validateTitle = () => {
+    if (updateTodoModel.title.trim() == "") {
+      alert("Title can not be contain only spaces");
+      return;
+    }
+  };
+  //Update Todo Status, Title, description
   const updateTask = async (e: React.FormEvent) => {
     e.preventDefault();
+    validateTitle();
     try {
       const response = await fetch(`${API_BASE_URL}/update`, {
         method: "PUT",
@@ -82,35 +92,66 @@ const TodoCard = ({ todo }: TodoProps) => {
         throw new Error("Update API failed");
       }
       console.log("Todo Updated Successfully");
+      toast.success("Todo updated Successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+        onClose: () => {
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+      });
     } catch (error) {
       console.error("Error updating Todo:", error);
+      toast.error("Todo update failed", {
+        position: toast.POSITION.TOP_RIGHT,
+        onClose: () => {
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+      });
     }
     handleClose();
-    window.location.reload();
   };
 
+  //Delete Todo
   const deleteTask = async (id: number) => {
+    //Confirm delete
     if (window.confirm("Are you sure you want to delete?")) {
       try {
         var response = await fetch(`${API_BASE_URL}/${id}`, {
           method: "DELETE",
         });
-        var message = await response.json();
+
         if (!response.ok) {
-          throw new Error(message);
+          throw new Error("Deletion Failed");
         }
 
-        console.log(message);
+        toast.success("Todo deleted Successfully", {
+          position: toast.POSITION.TOP_RIGHT,
+          onClose: () => {
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          },
+        });
       } catch (error) {
         console.log(error);
+        toast.error("Todo deletion failed", {
+          position: toast.POSITION.TOP_RIGHT,
+          onClose: () => {
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          },
+        });
       }
-
-      window.location.reload();
     }
   };
 
   return (
     <>
+    <ToastContainer/>
       <Row xs={1} md={2} className="g-3">
         {todo &&
           todo
