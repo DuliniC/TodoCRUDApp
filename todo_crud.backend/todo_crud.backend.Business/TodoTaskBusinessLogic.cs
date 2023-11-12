@@ -38,6 +38,7 @@ namespace todo_crud.backend.Business
             if(todo != null)
             {
                 this.unitOfWork.TodoTaskRepository.Delete(todo);
+                this.unitOfWork.Save();
                 return true;
             }
             return false;

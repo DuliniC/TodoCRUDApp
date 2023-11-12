@@ -1,4 +1,4 @@
-export enum priorities
+export enum Priorities
 {
     Default = 0,
     Low = 1,

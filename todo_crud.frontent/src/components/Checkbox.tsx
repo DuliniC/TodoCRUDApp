@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form } from "react-bootstrap";
-import { priorities } from "../models/TodoPriorityEnum";
+import { Priorities } from "../models/TodoPriorityEnum";
 import { TodoTask } from "../models/TodoTaskModel";
 import API_BASE_URL from "../config";
 
@@ -48,7 +48,6 @@ const CheckBox = ({todo} : checkBoxProps) => {
           id="complete-checkbox"
           checked = {todo.isCompleted}
           onChange={(e) => handleChange(e)}
-          style={{color: '#000000'}}
         />
       </div>
     </Form>

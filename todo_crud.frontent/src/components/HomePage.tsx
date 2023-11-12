@@ -39,9 +39,11 @@ const HomePage = () => {
       if (!response.ok) {
         throw new Error("Failed to create Todo");
       }
+      
       console.log("Todo created Successfully");
       window.location.reload();
       handleClose();
+
     } catch (error) {
       console.error(error);
     }
