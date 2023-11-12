@@ -21,8 +21,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors( options => {
-    options.AddPolicy("AllowReactFrontend",
-            builder => builder.WithOrigins("http://localhost:3000") // Adjust with your React frontend URL
+    options.AddPolicy("AllowCors",
+            builder => builder.WithOrigins("https://localhost:3000")
+                .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 });    
@@ -36,7 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors("AllowCors");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
