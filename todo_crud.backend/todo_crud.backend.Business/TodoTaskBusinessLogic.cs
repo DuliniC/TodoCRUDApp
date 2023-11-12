@@ -21,7 +21,7 @@ namespace todo_crud.backend.Business
 
         public async Task AddTodoTask(TodoTaskAddDTO todoTaskAdd)
         {
-
+            TodoTaskValidation.ValidateTodoAdd(todoTaskAdd);
             var newTodo = new TodoTask
             {
                 Title = todoTaskAdd.Title,
@@ -84,6 +84,7 @@ namespace todo_crud.backend.Business
 
         public async Task<bool> UpdateTodoById(TodoTaskUpdateDTO todoTaskUpdate)
         {
+            TodoTaskValidation.ValidateTodoUpdate(todoTaskUpdate);
             var todo = await this.unitOfWork.TodoTaskRepository.GetById(todoTaskUpdate.Id);
 
             if(todo != null)
