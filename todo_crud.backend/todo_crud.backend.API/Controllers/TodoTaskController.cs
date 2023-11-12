@@ -7,7 +7,7 @@ using todo_crud.backend.DataAccess;
 
 namespace todo_crud.backend.API.Controllers
 {
-    [Route("api/todo-tasks")]
+    [Route("api/todo-task")]
     [ApiController]
     public class TodoTaskController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace todo_crud.backend.API.Controllers
         }
 
         // GET
-        [HttpGet]
+        [HttpGet, Route("get-all")]
         public async Task<ActionResult<IEnumerable<TodoTaskResponseDTO>>> GetAllTodos()
         {
             IEnumerable<TodoTaskResponseDTO> todoResponses = new List<TodoTaskResponseDTO>();
@@ -61,23 +61,22 @@ namespace todo_crud.backend.API.Controllers
         }
 
         // POST
-        [HttpPost]
+        [HttpPost, Route("create")]
         public async Task<ActionResult> CreateTodoTask([FromBody] TodoTaskAddDTO todoValues)
         {
             try
             {
-                await _todoTaskBusinessLogic.AddTodoTask(todoValues);
+               var newTodoId = await _todoTaskBusinessLogic.AddTodoTask(todoValues);
+               return Created($"\"api/todo-task/{newTodoId}", todoValues);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
-
-            return Created("\"api/todo-tasks", todoValues);
         }
 
         // PUT By Id
-        [HttpPut]
+        [HttpPut, Route("update")]
         public async Task<ActionResult> UpdateTodo([FromBody] TodoTaskUpdateDTO todoUpdateValue)
         {
             try
@@ -88,14 +87,14 @@ namespace todo_crud.backend.API.Controllers
                     return NotFound($"{todoUpdateValue.Id} task not found");
                 }
             }
-            catch
+            catch(Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
             return Ok("Task updated Successfully");
         }
 
-        // DELETE api/<TodoTaskController>/5
+        // DELETE
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTodo(long id)
         {

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using static todo_crud.backend.Common.Enums;
 
 namespace todo_crud.backend.DataAccess.Entity

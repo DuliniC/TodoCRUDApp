@@ -11,7 +11,7 @@ namespace todo_crud.backend.Business
     {
         Task<TodoTaskResponseDTO> GetTodoById(long id);
         Task<IEnumerable<TodoTaskResponseDTO>> GetAllTodos();
-        Task AddTodoTask(TodoTaskAddDTO todoTaskAdd);
+        Task<long> AddTodoTask(TodoTaskAddDTO todoTaskAdd);
         Task<bool> UpdateTodoById(TodoTaskUpdateDTO todoTaskUpdate);
         Task<bool> DeleteTodoById(long id);
     }

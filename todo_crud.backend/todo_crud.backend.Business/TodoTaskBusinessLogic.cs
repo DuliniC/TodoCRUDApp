@@ -19,16 +19,17 @@ namespace todo_crud.backend.Business
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task AddTodoTask(TodoTaskAddDTO todoTaskAdd)
+        public async Task<long> AddTodoTask(TodoTaskAddDTO todoTaskAdd)
         {
-
+            TodoTaskValidations.ValidateTitle(todoTaskAdd.Title);
             var newTodo = new TodoTask
             {
                 Title = todoTaskAdd.Title,
                 Description = todoTaskAdd.Description,
             };
             await this.unitOfWork.TodoTaskRepository.Add(newTodo);
-            this.unitOfWork.Save();           
+            this.unitOfWork.Save();
+            return newTodo.Id;
         }
 
         public async Task<bool> DeleteTodoById(long id)
@@ -83,6 +84,7 @@ namespace todo_crud.backend.Business
 
         public async Task<bool> UpdateTodoById(TodoTaskUpdateDTO todoTaskUpdate)
         {
+            TodoTaskValidations.ValidateTitle(todoTaskUpdate.Title);
             var todo = await this.unitOfWork.TodoTaskRepository.GetById(todoTaskUpdate.Id);
 
             if(todo != null)
