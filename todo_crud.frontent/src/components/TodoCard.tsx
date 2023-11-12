@@ -64,7 +64,7 @@ const TodoCard = ({ todo }: TodoProps) => {
   const updateTask = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_BASE_URL}/api/todo-tasks`, {
+      const response = await fetch(`${API_BASE_URL}/update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const TodoCard = ({ todo }: TodoProps) => {
   const deleteTask = async (id: number) => {
     if (window.confirm("Are you sure you want to delete?")) {
       try {
-        var response = await fetch(`${API_BASE_URL}/api/todo-tasks/${id}`, {
+        var response = await fetch(`${API_BASE_URL}/${id}`, {
           method: "DELETE",
         });
         var message = await response.json();

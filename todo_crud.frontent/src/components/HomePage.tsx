@@ -26,7 +26,7 @@ const HomePage = () => {
     e.preventDefault();
     validateTitle();
     try {
-      const response = await fetch(`${API_BASE_URL}/api/todo-tasks`, {
+      const response = await fetch(`${API_BASE_URL}/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const HomePage = () => {
     //GetAll API call
     const getAllTodos = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/todo-tasks`, {
+        const response = await fetch(`${API_BASE_URL}/get-all`, {
           method: "GET",
           headers: {
             "Content-Type": "text/plain",

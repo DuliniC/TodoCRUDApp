@@ -13,7 +13,7 @@ const CheckBox = ({todo} : checkBoxProps) => {
     //Call update API
     try
     {
-        const response = await fetch(`${API_BASE_URL}/api/todo-tasks`, {
+        const response = await fetch(`${API_BASE_URL}/update`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
