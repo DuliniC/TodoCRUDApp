@@ -64,7 +64,7 @@ const TodoCard = ({ todo }: TodoProps) => {
   };
 
   const validateTitle = () => {
-    if (updateTodoModel.title.trim() == "") {
+    if (updateTodoModel.title.trim() === "") {
       alert("Title can not be contain only spaces");
       return;
     }
