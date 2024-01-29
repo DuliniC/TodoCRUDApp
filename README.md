@@ -34,3 +34,6 @@ Run frontend
 - Now React app will run in port:http://localhost:3000/
 
 Now you can use the Todo App
+![Screenshot 2024-01-29 200425](https://github.com/DuliniC/TodoCRUDApp/assets/97654533/230b2385-338f-4340-8abd-efdaa8e203cc)
+
+![image](https://github.com/DuliniC/TodoCRUDApp/assets/97654533/55aa6c6b-6fff-4896-8ea8-0eb511eb313b)
