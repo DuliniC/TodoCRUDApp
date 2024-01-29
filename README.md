@@ -1,5 +1,5 @@
 # Simple Todo App
-Code of the Todo CRUD App Interview Assignment .NET RESTful APIs + React TypeScript
+Code of the Todo CRUD App .NET RESTful APIs + React TypeScript
 
 # Requirements
 Microsoft .NET 7 SDK
